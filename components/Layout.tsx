@@ -2,7 +2,7 @@ import React, { ReactNode, useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import AudioPlayer from './AudioPlayer';
 const SoundCloudMiniPlayer = dynamic(() => import('./SoundCloudMiniPlayer'), { ssr: false });
-import AIChatbot from './AIChatbot';
+const AIChatbot = dynamic(() => import('./AIChatbot'), { ssr: false });
 import AIAvatarButton from './AIAvatarButton';
 
 const Starfield = dynamic(() => import('./Starfield'), { ssr: false });
@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {/* <Starfield /> */}
+      <Starfield />
       <AudioPlayer />
       <SoundCloudMiniPlayer />
       <AIAvatarButton onClick={toggleChatbot} />

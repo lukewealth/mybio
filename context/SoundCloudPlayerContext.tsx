@@ -23,11 +23,36 @@ const SoundCloudPlayerContext = createContext<SoundCloudPlayerContextType | unde
 
 export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [tracks, setTracks] = useState<Track[]>([
-    { id: 'rfjw1KMxkOml32jhgo', title: 'Track 1', url: 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/rfjw1KMxkOml32jhgo', artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg' },
-    { id: 'kttQ0PKhJKfLQpHUG4', title: 'Track 2', url: 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/kttQ0PKhJKfLQpHUG4', artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg' },
-    { id: 'Gsvv7tPyllgxUqkyDZ', title: 'Track 3', url: 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/Gsvv7tPyllgxUqkyDZ', artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg' },
-    { id: 'RIuTQYyK5bCc474n0J', title: 'Track 4', url: 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/RIuTQYyK5bCc474n0J', artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg' },
-    { id: 'E2TjleH1dgJGYMj4ZI', title: 'Track 5', url: 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/E2TjleH1dgJGYMj4ZI', artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg' },
+    {
+      id: '2019-election-black-lips-poem-10',
+      title: '2019 Election Black Lips Poem 10',
+      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/2019-election-black-lips-poem-10',
+      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
+    },
+    {
+      id: 'suffering-and-smiling-black-lips-poem-11',
+      title: 'Suffering and Smiling Black Lips Poem 11',
+      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/suffering-and-smiling-black-lips-poem-11',
+      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
+    },
+    {
+      id: 'airplane-mood',
+      title: 'Airplane Mood',
+      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/airplane-mood',
+      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
+    },
+    {
+      id: 'lukewealth_use_ya_head',
+      title: 'Lukewealth Use Ya Head',
+      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/lukewealth_use_ya_head',
+      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
+    },
+    {
+      id: 'lukewealth-human-being',
+      title: 'Lukewealth Human Being',
+      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/lukewealth-human-being',
+      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
+    },
   ]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
