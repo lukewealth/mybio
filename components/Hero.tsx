@@ -1,32 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGamepad, faBrain, faBook, faCode, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import { gsap } from 'gsap';
 import Narrator from './Narrator';
 
-const Landing: React.FC = () => {
-  const n1Ref = useRef<HTMLDivElement>(null);
-  const n2Ref = useRef<HTMLDivElement>(null);
-  const n3Ref = useRef<HTMLDivElement>(null);
-  const n4Ref = useRef<HTMLDivElement>(null);
-  const n5Ref = useRef<HTMLDivElement>(null);
+const Hero: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false); // State for hover effect
-
-  useEffect(() => {
-    const nodes = [n1Ref, n2Ref, n3Ref, n4Ref, n5Ref];
-
-    nodes.forEach((ref, i) => {
-      if (ref.current) {
-        gsap.set(ref.current, { left: "50%", top: "50%" });
-        gsap.to(ref.current, { rotate: 360, duration: 18 + i * 2, ease: "none", repeat: -1 });
-        gsap.to(ref.current, { x: (i % 2 ? 1 : -1) * 140, y: i * 10 - 80, yoyo: true, repeat: -1, duration: 3 + i, ease: "sine.inOut" });
-      }
-    });
-  }, []);
 
   const handlePlayMyStoryClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    gsap.to(window, { duration: 1, scrollTo: "#past", ease: "power2.inOut" });
+    // For smooth scrolling, consider using a library like react-scroll or implementing it manually
+    document.getElementById('past')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -42,11 +25,14 @@ const Landing: React.FC = () => {
               onMouseLeave={() => setIsHovered(false)}
             />
             {/* floating orbit nodes */}
-            <div className="node orb" ref={n1Ref}><FontAwesomeIcon icon={faGamepad} /></div>
-            <div className="node orb" ref={n2Ref}><FontAwesomeIcon icon={faBrain} /></div>
-            <div className="node orb" ref={n3Ref}><FontAwesomeIcon icon={faBook} /></div>
-            <div className="node orb" ref={n4Ref}><FontAwesomeIcon icon={faCode} /></div>
-            <div className="node orb" ref={n5Ref}><FontAwesomeIcon icon={faLightbulb} /></div>
+            {[faGamepad, faBrain, faBook, faCode, faLightbulb].map((icon, i) => (
+              <div
+                key={i}
+                className="node orb"
+              >
+                <FontAwesomeIcon icon={icon} />
+              </div>
+            ))}
           </div>
         </div>
         <div>
@@ -64,4 +50,4 @@ const Landing: React.FC = () => {
   );
 };
 
-export default Landing;
+export default Hero;

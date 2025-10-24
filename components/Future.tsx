@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const Future: React.FC = () => {
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
-  // const [showTricodeEmblem, setShowTricodeEmblem] = useState(false); // No longer needed for text display
 
   const cityVisionNodes: { [key: string]: string } = {
     "Lagos": "Innovation Hub, Tech Talent Development, Startup Ecosystem.",
@@ -13,15 +13,18 @@ const Future: React.FC = () => {
   };
 
   const handleRevealTricode = () => {
-    // setShowTricodeEmblem(true); // No longer needed for text display
-    // setTimeout(() => {
-    //   setShowTricodeEmblem(false);
-    // }, 3000); // No longer needed for text display
     window.open('https://www.tricode.pro', '_blank'); // Redirect to tricode.pro
   };
 
   return (
-    <section id="future" className="section bg-grad">
+    <motion.section
+      id="future"
+      className="section bg-grad"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-4">The Visionary of Africa</h2>
         <p className="text-white/80 max-w-3xl mx-auto mb-8">My vision extends to a future where Africa leads, not follows. We are not just consumers of technology, but creators of destiny. I am committed to building innovative solutions that empower our continent and showcase its boundless potential.</p>
@@ -45,13 +48,8 @@ const Future: React.FC = () => {
         <button onClick={handleRevealTricode} className="btn bg-emerald px-6 py-3 rounded-full">
           Reveal TRICODE Emblem
         </button>
-        {/* {showTricodeEmblem && ( // Removed text display
-          <div className="absolute inset-0 flex items-center justify-center z-20">
-            <h3 className="text-6xl font-bold text-sapphire animate-pulse">TRICODE EMBLEM</h3>
-          </div>
-        )} */}
       </div>
-    </section>
+    </motion.section>
   );
 };
 

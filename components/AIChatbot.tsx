@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 
 interface AIChatbotProps {
   onClose: () => void;
@@ -7,6 +10,7 @@ interface AIChatbotProps {
 const AIChatbot: React.FC<AIChatbotProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<{ text: string; sender: 'user' | 'ai' }[]>([]);
   const [input, setInput] = useState('');
+  const { isPlaying, togglePlayPause, playNextTrack, playPreviousTrack, currentTrack, tracks } = useSoundCloudPlayer();
 
   useEffect(() => {
     // Add initial AI message when component mounts
@@ -23,8 +27,26 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ onClose }) => {
       setTimeout(() => {
         let aiResponse = `Hello! You said: "${userMessage}". I am an AI chatbot.`;
 
-        if (userMessage.toLowerCase().includes('soundcloud') || userMessage.toLowerCase().includes('url')) {
-          aiResponse = "You have not provided a valid SoundCloud URL."; // Refined message
+        if (userMessage.toLowerCase().includes('play music') || userMessage.toLowerCase().includes('play soundcloud')) {
+          if (tracks.length > 0) {
+            aiResponse = `Playing ${currentTrack?.title || 'the first track'}.`;
+            togglePlayPause();
+          } else {
+            aiResponse = "I don't have any SoundCloud tracks loaded right now.";
+          }
+        } else if (userMessage.toLowerCase().includes('next track')) {
+          playNextTrack();
+          aiResponse = `Playing next track: ${currentTrack?.title}.`;
+        } else if (userMessage.toLowerCase().includes('previous track')) {
+          playPreviousTrack();
+          aiResponse = `Playing previous track: ${currentTrack?.title}.`;
+        } else if (userMessage.toLowerCase().includes('pause music') || userMessage.toLowerCase().includes('stop music')) {
+          if (isPlaying) {
+            togglePlayPause();
+            aiResponse = "Music paused.";
+          } else {
+            aiResponse = "Music is not currently playing.";
+          }
         }
 
         setMessages((prevMessages) => [
@@ -54,25 +76,38 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ onClose }) => {
           </div>
         ))}
       </div>
-      <div className="p-3 border-t border-gray-700 flex">
-        <input
-          type="text"
-          className="flex-1 bg-gray-800 text-white border border-gray-700 rounded-l-lg p-2 focus:outline-none"
-          placeholder="Type your message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              handleSendMessage();
-            }
-          }}
-        />
-        <button
-          onClick={handleSendMessage}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-r-lg"
-        >
-          Send
-        </button>
+      <div className="p-3 border-t border-gray-700 flex flex-col">
+        <div className="flex justify-around mb-2">
+          <button onClick={playPreviousTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
+            <FontAwesomeIcon icon={faStepBackward} />
+          </button>
+          <button onClick={togglePlayPause} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
+            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+          </button>
+          <button onClick={playNextTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
+            <FontAwesomeIcon icon={faStepForward} />
+          </button>
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            className="flex-1 bg-gray-800 text-white border border-gray-700 rounded-l-lg p-2 focus:outline-none"
+            placeholder="Type your message..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSendMessage();
+              }
+            }}
+          />
+          <button
+            onClick={handleSendMessage}
+            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-r-lg"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

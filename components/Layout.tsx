@@ -1,10 +1,11 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-// import ThreeDBackground from './ThreeDBackground'; // Removed ThreeDBackground
-import ParticleCursor from './ParticleCursor';
+import React, { ReactNode, useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import AudioPlayer from './AudioPlayer';
-import SoundCloudMiniPlayer from './SoundCloudMiniPlayer';
+const SoundCloudMiniPlayer = dynamic(() => import('./SoundCloudMiniPlayer'), { ssr: false });
 import AIChatbot from './AIChatbot';
 import AIAvatarButton from './AIAvatarButton';
+
+const Starfield = dynamic(() => import('./Starfield'), { ssr: false });
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,10 +13,9 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [showChatbot, setShowChatbot] = useState(false);
+  const [activeSection, setActiveSection] = useState('landing');
 
-  useEffect(() => {
-    document.getElementById('yr')!.textContent = new Date().getFullYear().toString();
-  }, []);
+  
 
   const toggleChatbot = () => {
     setShowChatbot((prev) => !prev);
@@ -23,8 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {/* <ThreeDBackground /> */} {/* Removed ThreeDBackground */}
-      <ParticleCursor />
+      {/* <Starfield /> */}
       <AudioPlayer />
       <SoundCloudMiniPlayer />
       <AIAvatarButton onClick={toggleChatbot} />
@@ -39,12 +38,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <span className="font-semibold tracking-wide text-sapphire">LUKE OKAGHA</span>
           </div>
           <nav className="hidden md:flex gap-8 text-sm text-white/90">
-            <a href="#landing">Home</a>
-            <a href="#past">Past</a>
-            <a href="#present">Present</a>
-            <a href="#becoming">Becoming</a>
-            <a href="#future">Future</a>
-            <a href="#connect">Connect</a>
+            <a href="#landing" className={activeSection === 'landing' ? 'active' : ''}>Home</a>
+            <a href="#past" className={activeSection === 'past' ? 'active' : ''}>Past</a>
+            <a href="#present" className={activeSection === 'present' ? 'active' : ''}>Present</a>
+            <a href="#becoming" className={activeSection === 'becoming' ? 'active' : ''}>Becoming</a>
+            <a href="#future" className={activeSection === 'future' ? 'active' : ''}>Future</a>
+            <a href="#connect" className={activeSection === 'connect' ? 'active' : ''}>Connect</a>
           </nav>
         </div>
       </header>
@@ -54,7 +53,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       {/* Footer */}
       <footer className="py-8 text-center text-white/60 text-sm">
-        © <span id="yr"></span> Luke Okagha — All Rights Reserved
+        © {new Date().getFullYear()} Luke Okagha — All Rights Reserved
       </footer>
     </>
   );

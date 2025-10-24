@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDatabase, faShieldHalved, faDiagramProject, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { faPython, faReact } from '@fortawesome/free-brands-svg-icons';
-import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
 
 const Present: React.FC = () => {
-  const codeStringRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
 
   const iconTooltips: { [key: string]: string } = {
@@ -17,27 +16,15 @@ const Present: React.FC = () => {
     "Leadership": "Leading teams to build impactful products and foster growth.",
   };
 
-  useEffect(() => {
-    codeStringRefs.current.forEach((el, i) => {
-      if (el) {
-        gsap.to(el, {
-          y: -50 - Math.random() * 100, // Drift upward
-          opacity: 0,
-          duration: 5 + Math.random() * 5,
-          repeat: -1,
-          yoyo: true,
-          ease: "none",
-          delay: Math.random() * 5,
-          onRepeat: () => {
-            gsap.set(el, { y: 0, opacity: 1 }); // Reset position and opacity on repeat
-          }
-        });
-      }
-    });
-  }, []);
-
   return (
-    <section id="present" className="section bg-grad">
+    <motion.section
+      id="present"
+      className="section bg-grad"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">The Architect’s Awakening</h2>
@@ -67,25 +54,9 @@ console.log("Build to serve humanity");</code></pre>
               )}
             </div>
           ))}
-
-          {/* Floating Code Strings */}
-          {['const vision = purpose + patience;', 'function buildFuture() { /* ... */ }', 'interface HumanConnection {};'].map((code, i) => (
-            <div
-              key={i}
-              ref={(el) => { codeStringRefs.current[i] = el; }} // Changed to return void
-              className="absolute text-emerald-300 text-xs whitespace-nowrap"
-              style={{
-                top: `${20 + i * 30}%`,
-                left: `${10 + i * 20}%`,
-                opacity: 0, // Initial opacity for GSAP to control
-              }}
-            >
-              {code}
-            </div>
-          ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

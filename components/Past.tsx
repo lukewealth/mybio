@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Narrator from './Narrator'; // Import Narrator
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { motion } from 'framer-motion';
 
 const Past: React.FC = () => {
   const [hoveredPoem, setHoveredPoem] = useState<string | null>(null);
   const [activeNarration, setActiveNarration] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLElement>(null); // Ref for the section
 
   const poemDetails: { [key: string]: string } = {
     "Black Lips Poet": "A collection of raw, unfiltered verses from the streets of Benin.",
@@ -32,23 +30,15 @@ const Past: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
-        filter: "saturate(1)", // Animate to full saturation
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom", // Start when top of section enters viewport
-          end: "bottom top",   // End when bottom of section leaves viewport
-          scrub: true,         // Link animation to scroll position
-        },
-      });
-    }
-  }, []);
-
   return (
-    <section id="past" className="section" ref={sectionRef} style={{ filter: 'saturate(0)' }}> {/* Initial saturation 0 */}
+    <motion.section
+      id="past"
+      className="section"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1530541930197-ff16ac917795?q=80&w=1974&auto=format&fit=crop')] bg-cover bg-center"></div>
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-6">The Poet’s Origin</h2>
@@ -81,7 +71,7 @@ const Past: React.FC = () => {
           </div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 };
 
