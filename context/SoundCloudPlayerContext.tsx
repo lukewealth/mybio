@@ -19,6 +19,8 @@ interface SoundCloudPlayerContextType {
   playPreviousTrack: () => void;
   currentTrack: Track | null;
   setTracks: React.Dispatch<React.SetStateAction<Track[]>>; // Allow setting tracks dynamically
+  isChatbotOpen: boolean;
+  toggleChatbot: () => void;
 }
 
 const SoundCloudPlayerContext = createContext<SoundCloudPlayerContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ ch
   const [tracks, setTracks] = useState<Track[]>(initialTracks);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState<boolean>(false);
 
   const currentTrack = tracks[currentTrackIndex] || null;
 
@@ -39,6 +42,10 @@ export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ ch
 
   const togglePlayPause = useCallback(() => {
     setIsPlaying((prev) => !prev);
+  }, []);
+
+  const toggleChatbot = useCallback(() => {
+    setIsChatbotOpen((prev) => !prev);
   }, []);
 
   const playNextTrack = useCallback(() => {
@@ -63,6 +70,8 @@ export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ ch
         playPreviousTrack,
         currentTrack,
         setTracks,
+        isChatbotOpen,
+        toggleChatbot,
       }}
     >
       {children}

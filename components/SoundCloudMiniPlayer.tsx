@@ -12,6 +12,7 @@ export default function SoundCloudMiniPlayer() {
     togglePlayPause,
     playNextTrack,
     playPreviousTrack,
+    toggleChatbot,
   } = useSoundCloudPlayer();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetRef = useRef<any>(null);
@@ -122,17 +123,17 @@ export default function SoundCloudMiniPlayer() {
   }
 
   return (
-    <div className="fixed bottom-2 right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2">
+    <button onClick={toggleChatbot} className="fixed bottom-2 right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2">
       {currentTrack.artwork_url && (
         <img src={currentTrack.artwork_url} alt="Track Artwork" className="w-10 h-10 rounded-md" />
       )}
-      <button onClick={playPreviousTrack} className="text-white text-lg">
+      <button onClick={(e) => { e.stopPropagation(); playPreviousTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepBackward} style={{ color: 'white', fontSize: '24px' }} />
       </button>
-      <button onClick={togglePlayPause} className={`text-lg ${trackLoaded ? 'text-red-500' : 'text-gray-500'}`}>
+      <button onClick={(e) => { e.stopPropagation(); togglePlayPause(); }} className={`text-lg ${trackLoaded ? 'text-red-500' : 'text-gray-500'}`}>
         <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} style={{ color: 'white', fontSize: '24px' }} />
       </button>
-      <button onClick={playNextTrack} className="text-white text-lg">
+      <button onClick={(e) => { e.stopPropagation(); playNextTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepForward} style={{ color: 'white', fontSize: '24px' }} />
       </button>
       <div className="text-white text-sm flex-grow">
@@ -151,6 +152,6 @@ export default function SoundCloudMiniPlayer() {
           style={{ display: 'none' }}
         ></iframe>
       )}
-    </div>
+    </button>
   );
 }

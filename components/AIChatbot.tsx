@@ -3,14 +3,10 @@ import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 
-interface AIChatbotProps {
-  onClose: () => void;
-}
-
-const AIChatbot: React.FC<AIChatbotProps> = ({ onClose }) => {
+const AIChatbot: React.FC = () => {
   const [messages, setMessages] = useState<{ text: string; sender: 'user' | 'ai' }[]>([]);
   const [input, setInput] = useState('');
-  const { isPlaying, togglePlayPause, playNextTrack, playPreviousTrack, currentTrack, tracks } = useSoundCloudPlayer();
+  const { isPlaying, togglePlayPause, playNextTrack, playPreviousTrack, currentTrack, tracks, isChatbotOpen, toggleChatbot } = useSoundCloudPlayer();
 
   useEffect(() => {
     // Add initial AI message when component mounts
@@ -57,17 +53,26 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ onClose }) => {
     }
   };
 
+  if (!isChatbotOpen) {
+    return null;
+  }
+
   return (
-    <div className="fixed bottom-4 right-4 w-full max-w-sm h-3/4 md:w-80 md:h-96 bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
+    <div className="fixed bottom-24 right-4 w-full max-w-sm h-3/4 md:w-80 md:h-96 bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
       <div className="flex justify-between items-center p-3 border-b border-gray-700">
         <h3 className="text-lg font-semibold">AI Chatbot</h3>
-        <button onClick={onClose} className="text-gray-400 hover:text-white">
+        <button onClick={toggleChatbot} className="text-gray-400 hover:text-white">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
       <div className="flex-1 p-3 overflow-y-auto">
+        {currentTrack?.artwork_url && (
+          <div className="flex justify-center mb-4">
+            <img src={currentTrack.artwork_url} alt="Track Artwork" className="w-32 h-32 rounded-md" />
+          </div>
+        )}
         {messages.map((msg, index) => (
           <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
             <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600' : 'bg-gray-700'}`}>
