@@ -32,7 +32,7 @@ const Present: React.FC = () => {
           <pre className="glass rounded-xl p-4 text-emerald text-sm overflow-x-auto"><code>const purpose = faith + patience;
 console.log("Build to serve humanity");</code></pre>
         </div>
-        <div className="grid grid-cols-3 gap-4 relative">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 relative">
           {Object.keys(iconTooltips).map((iconName) => (
             <div
               key={iconName}

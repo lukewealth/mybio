@@ -100,7 +100,7 @@ const AIChatbot: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-24 right-4 w-full max-w-sm h-auto bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
+    <div className="fixed bottom-24 right-4 left-4 w-full max-w-sm h-auto bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
       <div className="flex justify-between items-center p-3 border-b border-gray-700">
         <h3 className="text-lg font-semibold">AI Chatbot</h3>
         <button onClick={toggleChatbot} className="text-gray-400 hover:text-white">
