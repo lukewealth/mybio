@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { initialTracks } from './tracks';
 
-interface Track {
+export interface Track {
   id: string;
   title: string;
   url: string;
   artwork_url?: string; // Optional artwork URL
+  type: 'soundcloud' | 'local'; // Add type property
 }
 
 interface SoundCloudPlayerContextType {
@@ -22,38 +24,7 @@ interface SoundCloudPlayerContextType {
 const SoundCloudPlayerContext = createContext<SoundCloudPlayerContextType | undefined>(undefined);
 
 export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [tracks, setTracks] = useState<Track[]>([
-    {
-      id: '2019-election-black-lips-poem-10',
-      title: '2019 Election Black Lips Poem 10',
-      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/2019-election-black-lips-poem-10',
-      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
-    },
-    {
-      id: 'suffering-and-smiling-black-lips-poem-11',
-      title: 'Suffering and Smiling Black Lips Poem 11',
-      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/suffering-and-smiling-black-lips-poem-11',
-      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
-    },
-    {
-      id: 'airplane-mood',
-      title: 'Airplane Mood',
-      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/airplane-mood',
-      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
-    },
-    {
-      id: 'lukewealth_use_ya_head',
-      title: 'Lukewealth Use Ya Head',
-      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/lukewealth_use_ya_head',
-      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
-    },
-    {
-      id: 'lukewealth-human-being',
-      title: 'Lukewealth Human Being',
-      url: 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lukewealth/lukewealth-human-being',
-      artwork_url: 'https://i1.sndcdn.com/artworks-000118000000-000000-large.jpg', // Placeholder
-    },
-  ]);
+  const [tracks, setTracks] = useState<Track[]>(initialTracks);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 

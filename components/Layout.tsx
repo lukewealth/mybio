@@ -1,6 +1,6 @@
+import Image from 'next/image';
 import React, { ReactNode, useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import AudioPlayer from './AudioPlayer';
 const SoundCloudMiniPlayer = dynamic(() => import('./SoundCloudMiniPlayer'), { ssr: false });
 const AIChatbot = dynamic(() => import('./AIChatbot'), { ssr: false });
 import AIAvatarButton from './AIAvatarButton';
@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Starfield />
-      <AudioPlayer />
+      
       <SoundCloudMiniPlayer />
       <AIAvatarButton onClick={toggleChatbot} />
 
@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/tricodelogo.jpeg" alt="logo" className="w-8 h-8 rounded ring-aura" />
+            <Image src="/tricodelogo.jpeg" alt="logo" width={32} height={32} className="rounded ring-aura" />
             <span className="font-semibold tracking-wide text-sapphire">LUKE OKAGHA</span>
           </div>
           <nav className="hidden md:flex gap-8 text-sm text-white/90">
