@@ -83,9 +83,13 @@ export default function SoundCloudMiniPlayer() {
 
       const onReady = () => {
         setTrackLoaded(false);
-        widget.load(currentTrack.url, { auto_play: isPlaying });
+        widget.load(currentTrack.url, { auto_play: false });
         widget.bind((window as any).SC.Widget.Events.LOAD_PROGRESS, () => {
           setTrackLoaded(true);
+        });
+        widget.getDuration((d: number) => setDuration(d / 1000));
+        widget.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+          setCurrentTime(e.currentPosition / 1000);
         });
       };
 
@@ -124,18 +128,6 @@ export default function SoundCloudMiniPlayer() {
       }
     }
   }, [isPlaying, trackLoaded, currentTrack, setCurrentTime]);
-
-  useEffect(() => {
-    if (widgetRef.current) {
-      const widget = widgetRef.current;
-      widget.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
-        setCurrentTime(e.currentPosition / 1000);
-      });
-      widget.bind((window as any).SC.Widget.Events.READY, () => {
-        widget.getDuration((d: number) => setDuration(d / 1000));
-      });
-    }
-  }, [setDuration, setCurrentTime]);
 
   if (!currentTrack) {
     return null;

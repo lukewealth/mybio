@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGamepad, faBrain, faBook, faCode, faLightbulb, faMicrophone, faGlobe, faRobot, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import Narrator from './Narrator';
+import LukeokaghaImage from '../public/Lukeokagha.jpg';
 
 interface IconData {
   icon: any;
@@ -38,7 +39,7 @@ const Hero: React.FC = () => {
         <div className="relative justify-self-center">
           <div className="orbit">
             <Image
-              src="/lukeokagha.jpg"
+              src={LukeokaghaImage}
               alt="Luke Okagha portrait"
               width={288}
               height={288}

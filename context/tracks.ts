@@ -1,12 +1,13 @@
 
 import { Track } from './SoundCloudPlayerContext';
+import Lukeokagha from '../public/Lukeokagha.jpg';
 
 export const initialTracks: Track[] = [
   {
     id: 'lukeintro',
     title: 'Luke Intro Music',
     url: '/lukeintro.mp3',
-    artwork_url: '/Lukeokagha.jpg',
+    artwork_url: Lukeokagha.src,
     type: 'local',
   },
   {
