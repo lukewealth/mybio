@@ -41,10 +41,8 @@ const Hero: React.FC = () => {
             <Image
               src={LukeokaghaImage}
               alt="Luke Okagha portrait"
-              width={288}
-              height={288}
               priority
-              className={`rounded-full ring-aura object-cover transition-all duration-300 ease-in-out ${isHovered ? 'shadow-glow-hover' : 'shadow-glow'}`}
+              className={`rounded-full ring-aura object-cover transition-all duration-300 ease-in-out w-48 h-48 sm:w-72 sm:h-72 lg:w-72 lg:h-72 ${isHovered ? 'shadow-glow-hover' : 'shadow-glow'}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             />
