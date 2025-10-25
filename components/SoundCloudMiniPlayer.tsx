@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Howl } from 'howler';
 import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faStepBackward, faStepForward, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 export default function SoundCloudMiniPlayer() {
   const {
@@ -172,7 +172,7 @@ export default function SoundCloudMiniPlayer() {
   const isCurrentTrackLoaded = trackLoadingStatus[currentTrack.id];
 
   return (
-    <button onClick={toggleChatbot} className="fixed bottom-2 right-4 md:right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2 z-51">
+    <div className="fixed bottom-2 right-4 md:right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2 z-51">
       <Image src={artworkSrc} alt="Track Artwork" width={40} height={40} className="rounded-md" />
       <button onClick={(e) => { e.stopPropagation(); playPreviousTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepBackward} style={{ color: 'white', fontSize: '24px' }} />
@@ -190,6 +190,9 @@ export default function SoundCloudMiniPlayer() {
       <div className="text-white text-sm flex-grow">
         <p className="truncate">{currentTrack.title}</p>
       </div>
+      <button onClick={toggleChatbot} className="text-white text-lg p-1 rounded-full hover:bg-gray-700">
+        <FontAwesomeIcon icon={faCommentDots} />
+      </button>
 
       {/* The iframe for the current track is no longer needed here as all tracks are pre-loaded */}
       {/* <iframe
@@ -202,6 +205,6 @@ export default function SoundCloudMiniPlayer() {
         src={`https://w.soundcloud.com/player/?url=${currentTrack.url}`}
         style={{ display: 'none' }}
       ></iframe> */}
-    </button>
+    </div>
   );
 }
