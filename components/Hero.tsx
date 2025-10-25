@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
           <div className="flex flex-wrap gap-3">
             <a href="#past" onClick={handlePlayMyStoryClick} className="btn bg-sapphire px-6 py-3 rounded-full">Play My Story</a>
             <a href="#present" className="btn border border-white/20 px-6 py-3 rounded-full">Skip to Present</a>
-            <a href="/Luke_Okagha Resume.pdf" download className="btn bg-emerald px-6 py-3 rounded-full">Download My CV</a> {/* New Download CV button */}
+            <a href="/Lukeoresume.pdf" download className="btn bg-emerald px-6 py-3 rounded-full">Download My CV</a> {/* New Download CV button */}
           </div>
           {/* <Narrator text="Welcome to Luke's immersive biography experience." /> */}
         </div>
