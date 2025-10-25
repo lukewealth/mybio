@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
@@ -70,7 +71,7 @@ const AIChatbot: React.FC = () => {
       <div className="flex-1 p-3 overflow-y-auto">
         {currentTrack?.artwork_url && (
           <div className="flex justify-center mb-4">
-            <img src={currentTrack.artwork_url} alt="Track Artwork" className="w-32 h-32 rounded-md" />
+            <Image src={currentTrack.artwork_url} alt="Track Artwork" width={128} height={128} className="rounded-md" />
           </div>
         )}
         {messages.map((msg, index) => (

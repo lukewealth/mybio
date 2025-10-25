@@ -1,5 +1,6 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Howl } from 'howler';
 import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -125,7 +126,7 @@ export default function SoundCloudMiniPlayer() {
   return (
     <button onClick={toggleChatbot} className="fixed bottom-2 right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2">
       {currentTrack.artwork_url && (
-        <img src={currentTrack.artwork_url} alt="Track Artwork" className="w-10 h-10 rounded-md" />
+        <Image src={currentTrack.artwork_url} alt="Track Artwork" width={40} height={40} className="rounded-md" />
       )}
       <button onClick={(e) => { e.stopPropagation(); playPreviousTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepBackward} style={{ color: 'white', fontSize: '24px' }} />
