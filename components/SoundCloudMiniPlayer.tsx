@@ -17,6 +17,7 @@ export default function SoundCloudMiniPlayer() {
     setDuration,
     setCurrentTime,
     setTrackLoadingStatus,
+    trackLoadingStatus,
     tracks,
   } = useSoundCloudPlayer();
   const iframeRef = useRef<HTMLIFrameElement>(null);
