@@ -12,23 +12,15 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [showChatbot, setShowChatbot] = useState(false);
   const [activeSection, setActiveSection] = useState('landing');
-
-  
-
-  const toggleChatbot = () => {
-    setShowChatbot((prev) => !prev);
-  };
 
   return (
     <>
       <Starfield />
       
       <SoundCloudMiniPlayer />
-      <AIAvatarButton onClick={toggleChatbot} />
-
-      {showChatbot && <AIChatbot onClose={toggleChatbot} />}
+      <AIAvatarButton />
+      <AIChatbot />
 
       {/* NAV */}
       <header className="fixed top-0 left-0 right-0 z-50">

@@ -4,6 +4,47 @@ import { useSoundCloudPlayer } from '../context/SoundCloudPlayerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 
+const Player = () => {
+  const { isPlaying, togglePlayPause, playNextTrack, playPreviousTrack, currentTrack, duration, currentTime } = useSoundCloudPlayer();
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
+
+  const artworkSrc = currentTrack?.artwork_url || '/artworks.jpg';
+
+  return (
+    <div className="p-4 bg-gray-800 rounded-t-lg">
+      <div className="flex justify-center mb-4">
+        <Image src={artworkSrc} alt="Track Artwork" width={128} height={128} className="rounded-md" />
+      </div>
+      <div className="text-center">
+        <p className="text-lg font-semibold">{currentTrack?.title}</p>
+      </div>
+      <div className="flex items-center justify-between mt-4">
+        <p className="text-xs">{formatTime(currentTime)}</p>
+        <div className="w-full h-1 bg-gray-600 rounded-full mx-2">
+          <div className="h-1 bg-red-500 rounded-full" style={{ width: `${(currentTime / duration) * 100}%` }}></div>
+        </div>
+        <p className="text-xs">{formatTime(duration)}</p>
+      </div>
+      <div className="flex justify-around items-center mt-4">
+        <button onClick={playPreviousTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
+          <FontAwesomeIcon icon={faStepBackward} />
+        </button>
+        <button onClick={togglePlayPause} className="text-white text-2xl p-2 rounded-full hover:bg-gray-700">
+          <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+        </button>
+        <button onClick={playNextTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
+          <FontAwesomeIcon icon={faStepForward} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const AIChatbot: React.FC = () => {
   const [messages, setMessages] = useState<{ text: string; sender: 'user' | 'ai' }[]>([]);
   const [input, setInput] = useState('');
@@ -59,7 +100,7 @@ const AIChatbot: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-24 right-4 w-full max-w-sm h-3/4 md:w-80 md:h-96 bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
+    <div className="fixed bottom-24 right-4 w-full max-w-sm h-auto bg-gray-900 text-white rounded-lg shadow-lg flex flex-col z-50">
       <div className="flex justify-between items-center p-3 border-b border-gray-700">
         <h3 className="text-lg font-semibold">AI Chatbot</h3>
         <button onClick={toggleChatbot} className="text-gray-400 hover:text-white">
@@ -68,12 +109,8 @@ const AIChatbot: React.FC = () => {
           </svg>
         </button>
       </div>
-      <div className="flex-1 p-3 overflow-y-auto">
-        {currentTrack?.artwork_url && (
-          <div className="flex justify-center mb-4">
-            <Image src={currentTrack.artwork_url} alt="Track Artwork" width={128} height={128} className="rounded-md" />
-          </div>
-        )}
+      <Player />
+      <div className="flex-1 p-3 overflow-y-auto h-48">
         {messages.map((msg, index) => (
           <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
             <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600' : 'bg-gray-700'}`}>
@@ -83,17 +120,6 @@ const AIChatbot: React.FC = () => {
         ))}
       </div>
       <div className="p-3 border-t border-gray-700 flex flex-col">
-        <div className="flex justify-around mb-2">
-          <button onClick={playPreviousTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
-            <FontAwesomeIcon icon={faStepBackward} />
-          </button>
-          <button onClick={togglePlayPause} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
-            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
-          </button>
-          <button onClick={playNextTrack} className="text-white text-lg p-2 rounded-full hover:bg-gray-700">
-            <FontAwesomeIcon icon={faStepForward} />
-          </button>
-        </div>
         <div className="flex">
           <input
             type="text"

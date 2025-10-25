@@ -14,6 +14,8 @@ export default function SoundCloudMiniPlayer() {
     playNextTrack,
     playPreviousTrack,
     toggleChatbot,
+    setDuration,
+    setCurrentTime,
   } = useSoundCloudPlayer();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const widgetRef = useRef<any>(null);
@@ -106,6 +108,10 @@ export default function SoundCloudMiniPlayer() {
       if (localAudioRef.current) {
         if (isPlaying) {
           localAudioRef.current.play();
+          const interval = setInterval(() => {
+            setCurrentTime(localAudioRef.current?.seek() as number);
+          }, 1000);
+          return () => clearInterval(interval);
         } else {
           localAudioRef.current.pause();
         }
@@ -117,17 +123,29 @@ export default function SoundCloudMiniPlayer() {
         widgetRef.current.pause();
       }
     }
-  }, [isPlaying, trackLoaded, currentTrack]);
+  }, [isPlaying, trackLoaded, currentTrack, setCurrentTime]);
+
+  useEffect(() => {
+    if (widgetRef.current) {
+      const widget = widgetRef.current;
+      widget.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+        setCurrentTime(e.currentPosition / 1000);
+      });
+      widget.bind((window as any).SC.Widget.Events.READY, () => {
+        widget.getDuration((d: number) => setDuration(d / 1000));
+      });
+    }
+  }, [setDuration, setCurrentTime]);
 
   if (!currentTrack) {
     return null;
   }
 
+  const artworkSrc = currentTrack?.artwork_url || '/artworks.jpg';
+
   return (
     <button onClick={toggleChatbot} className="fixed bottom-2 right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2">
-      {currentTrack.artwork_url && (
-        <Image src={currentTrack.artwork_url} alt="Track Artwork" width={40} height={40} className="rounded-md" />
-      )}
+      <Image src={artworkSrc} alt="Track Artwork" width={40} height={40} className="rounded-md" />
       <button onClick={(e) => { e.stopPropagation(); playPreviousTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepBackward} style={{ color: 'white', fontSize: '24px' }} />
       </button>
