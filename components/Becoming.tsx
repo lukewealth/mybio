@@ -48,7 +48,7 @@ const Becoming: React.FC = () => {
       <div className="relative max-w-6xl mx-auto px-6">
         <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center">The Builder of People</h2>
         <p className="text-white/80 text-center max-w-3xl mx-auto mb-8">Real innovation isn’t just code—it’s connection. Every student I mentor, every mind I inspire, is a line of legacy.</p>
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           {Object.keys(boxContent).map((boxTitle) => (
             <div
               key={boxTitle}

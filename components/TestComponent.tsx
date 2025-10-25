@@ -2,7 +2,7 @@ import React from 'react';
 
 const TestComponent: React.FC = () => {
   return (
-    <div style={{ color: 'white', fontSize: '3rem', textAlign: 'center', marginTop: '100px' }}>
+    <div className="text-white text-3xl sm:text-4xl md:text-5xl text-center mt-10 md:mt-20">
       <h1>Hello World</h1>
     </div>
   );

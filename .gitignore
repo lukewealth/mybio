@@ -9,8 +9,7 @@ out/
 .DS_Store
 
 # Environment variables
-.env.local
 .env.development.local
 .env.production.local
 .env.test.local
-.env
+config.bat

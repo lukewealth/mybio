@@ -7,6 +7,7 @@ export interface Track {
   url: string;
   artwork_url?: string; // Optional artwork URL
   type: 'soundcloud' | 'local'; // Add type property
+  loaded: boolean; // Add loaded property
 }
 
 interface SoundCloudPlayerContextType {
@@ -25,6 +26,8 @@ interface SoundCloudPlayerContextType {
   currentTime: number;
   setDuration: (duration: number) => void;
   setCurrentTime: (time: number) => void;
+  trackLoadingStatus: { [key: string]: boolean };
+  setTrackLoadingStatus: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>; // Add track loading status
 }
 
 const SoundCloudPlayerContext = createContext<SoundCloudPlayerContextType | undefined>(undefined);
@@ -36,6 +39,7 @@ export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ ch
   const [isChatbotOpen, setIsChatbotOpen] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
+  const [trackLoadingStatus, setTrackLoadingStatus] = useState<{ [key: string]: boolean }>({});
 
   const currentTrack = tracks[currentTrackIndex] || null;
 
@@ -82,6 +86,8 @@ export const SoundCloudPlayerProvider: React.FC<{ children: ReactNode }> = ({ ch
         currentTime,
         setDuration,
         setCurrentTime,
+        trackLoadingStatus,
+        setTrackLoadingStatus,
       }}
     >
       {children}
