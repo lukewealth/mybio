@@ -57,7 +57,10 @@ export default function SoundCloudMiniPlayer() {
             onload: () => {
               setTrackLoadingStatus((prev) => ({ ...prev, [track.id]: true }));
             },
-            onend: playNextTrack, // This might need adjustment if pre-loading shouldn't trigger next track
+            onloaderror: (id, error) => {
+              console.error(`Error loading local track ${track.id}:`, error);
+              setTrackLoadingStatus((prev) => ({ ...prev, [track.id]: false }));
+            },
           });
           allLocalHowlsRef.current.set(track.id, localSound);
         }
@@ -79,6 +82,10 @@ export default function SoundCloudMiniPlayer() {
 
           widget.bind((window as any).SC.Widget.Events.READY, () => {
             setTrackLoadingStatus((prev) => ({ ...prev, [track.id]: true }));
+          });
+          widget.bind((window as any).SC.Widget.Events.ERROR, (error: any) => {
+            console.error(`Error loading SoundCloud track ${track.id}:`, error);
+            setTrackLoadingStatus((prev) => ({ ...prev, [track.id]: false }));
           });
         }
       }
@@ -107,12 +114,21 @@ export default function SoundCloudMiniPlayer() {
     if (currentTrack.type === 'local') {
       const localSound = allLocalHowlsRef.current.get(currentTrack.id);
       if (localSound) {
+        localSound.on('end', playNextTrack);
         if (isPlaying) {
-          localSound.play();
-          const interval = setInterval(() => {
-            setCurrentTime(localSound.seek() as number);
-          }, 1000);
-          return () => clearInterval(interval);
+          try {
+            localSound.play();
+            const interval = setInterval(() => {
+              setCurrentTime(localSound.seek() as number);
+            }, 1000);
+            return () => {
+              clearInterval(interval);
+              localSound.off('end', playNextTrack);
+            };
+          } catch (error) {
+            console.error(`Error playing local track ${currentTrack.id}:`, error);
+            // Optionally, set isPlaying to false or show an error message
+          }
         } else {
           localSound.pause();
         }
@@ -120,15 +136,29 @@ export default function SoundCloudMiniPlayer() {
     } else if (currentTrack.type === 'soundcloud' && isSoundCloudApiLoaded) {
       const widget = allSoundCloudWidgetsRef.current.get(currentTrack.id);
       if (widget) {
+        // Explicitly load the track into the widget when it becomes the current track
+        widget.load(currentTrack.url, { auto_play: false });
+        widget.getDuration((d: number) => setDuration(d / 1000));
+        widget.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+          setCurrentTime(e.currentPosition / 1000);
+        });
+        widget.bind((window as any).SC.Widget.Events.PLAY, () => {
+          // Only update if the state is not already playing to avoid unnecessary re-renders
+          if (!isPlaying) {
+            togglePlayPause(); // This will set isPlaying to true
+          }
+        });
+        widget.bind((window as any).SC.Widget.Events.PAUSE, () => {
+          // Only update if the state is not already paused
+          if (isPlaying) {
+            togglePlayPause(); // This will set isPlaying to false
+          }
+        });
         if (isPlaying) {
           widget.play();
         } else {
           widget.pause();
         }
-        widget.getDuration((d: number) => setDuration(d / 1000));
-        widget.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
-          setCurrentTime(e.currentPosition / 1000);
-        });
       }
     }
   }, [isPlaying, currentTrack, isSoundCloudApiLoaded, setDuration, setCurrentTime]);
@@ -142,7 +172,7 @@ export default function SoundCloudMiniPlayer() {
   const isCurrentTrackLoaded = trackLoadingStatus[currentTrack.id];
 
   return (
-    <button onClick={toggleChatbot} className="fixed bottom-2 right-4 md:right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2">
+    <button onClick={toggleChatbot} className="fixed bottom-2 right-4 md:right-24 bg-black/60 rounded-lg p-2 shadow-lg backdrop-blur-md flex items-center space-x-2 z-51">
       <Image src={artworkSrc} alt="Track Artwork" width={40} height={40} className="rounded-md" />
       <button onClick={(e) => { e.stopPropagation(); playPreviousTrack(); }} className="text-white text-lg">
         <FontAwesomeIcon icon={faStepBackward} style={{ color: 'white', fontSize: '24px' }} />
