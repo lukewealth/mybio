@@ -1,0 +1,24 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "ai-systems-repositioning",
+    "docs/readme-engineering-first",
+    "feature/mobile-responsiveness-and-soundcloud",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "ai-systems-repositioning": "main",
+    "docs/readme-engineering-first": "main",
+    "feature/mobile-responsiveness-and-soundcloud": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "ai-systems-repositioning",
+    "docs/readme-engineering-first",
+    "feature/mobile-responsiveness-and-soundcloud",
+    "origin"
+  ]
+}
