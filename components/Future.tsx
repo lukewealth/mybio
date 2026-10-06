@@ -1,56 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
-const Future: React.FC = () => {
-  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+const roles = ['AI Systems Engineer', 'AI Software Engineer', 'AI Platform Engineer', 'Applied AI Engineer', 'Senior Backend Engineer', 'AI Solutions Engineer'];
 
-  const cityVisionNodes: { [key: string]: string } = {
-    "Lagos": "Innovation Hub, Tech Talent Development, Startup Ecosystem.",
-    "Nairobi": "Green Energy Initiatives, Digital Inclusion, Agricultural Tech.",
-    "Accra": "Creative Industries, Youth Empowerment, Sustainable Urbanization.",
-    "Cairo": "Historical Preservation, Cultural Exchange, Smart City Solutions.",
-    "Addis Ababa": "Pan-African Unity, Diplomatic Hub, Infrastructure Development.",
-  };
-
-  const handleRevealTricode = () => {
-    window.open('https://www.tricode.pro', '_blank'); // Redirect to tricode.pro
-  };
-
-  return (
-    <motion.section
-      id="future"
-      className="section bg-grad"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">The Visionary of Africa</h2>
-        <p className="text-white/80 max-w-3xl mx-auto mb-8">My vision extends to a future where Africa leads, not follows. We are not just consumers of technology, but creators of destiny. I am committed to building innovative solutions that empower our continent and showcase its boundless potential.</p>
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-          {Object.keys(cityVisionNodes).map((city) => (
-            <div
-              key={city}
-              className="relative"
-              onMouseEnter={() => setHoveredCity(city)}
-              onMouseLeave={() => setHoveredCity(null)}
-            >
-              <span className="glass px-4 py-2 rounded-full cursor-pointer">{city}</span>
-              {hoveredCity === city && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-gray-700 text-white text-xs rounded-lg shadow-lg whitespace-nowrap">
-                  {cityVisionNodes[city]}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <button onClick={handleRevealTricode} className="btn bg-emerald px-6 py-3 rounded-full">
-          Reveal TRICODE Emblem
-        </button>
+const Future: React.FC = () => (
+  <motion.section id="direction" className="section bg-grad" initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.2}}>
+    <div className="max-w-6xl mx-auto px-6 py-24 w-full">
+      <p className="text-emerald font-semibold mb-3">CURRENT DIRECTION</p>
+      <h2 className="text-3xl md:text-5xl font-bold mb-4">Building toward AI Systems Engineering</h2>
+      <p className="text-white/65 max-w-3xl mb-8">I am focused on global remote engineering opportunities where I can build agentic systems, backend infrastructure and AI-powered products.</p>
+      <div className="flex flex-wrap gap-3 mb-10">{roles.map(role => <span key={role} className="glass px-4 py-2 rounded-full text-sm">{role}</span>)}</div>
+      <div className="grid md:grid-cols-3 gap-5">
+        <div className="glass rounded-2xl p-6"><h3 className="font-semibold">Primary</h3><p className="text-white/60 text-sm mt-2">Agentic AI, backend systems, LLM applications, MCP and automation.</p></div>
+        <div className="glass rounded-2xl p-6"><h3 className="font-semibold">Strength</h3><p className="text-white/60 text-sm mt-2">Debugging, technical reasoning, architecture and translating business problems into systems.</p></div>
+        <div className="glass rounded-2xl p-6"><h3 className="font-semibold">Goal</h3><p className="text-white/60 text-sm mt-2">Work with globally distributed teams building reliable AI products at meaningful scale.</p></div>
       </div>
-    </motion.section>
-  );
-};
+    </div>
+  </motion.section>
+);
 
 export default Future;
