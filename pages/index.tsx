@@ -6,17 +6,15 @@ import Becoming from '../components/Becoming';
 import Future from '../components/Future';
 import Connect from '../components/Connect';
 
-const Home: React.FC = () => {
-  return (
-    <>
-      <Hero />
-      <Past />
-      <Present />
-      <Becoming />
-      <Future />
-      <Connect />
-    </>
-  );
-};
+const Home: React.FC = () => (
+  <>
+    <Hero />
+    <Past />
+    <Present />
+    <Becoming />
+    <Future />
+    <Connect />
+  </>
+);
 
 export default Home;
